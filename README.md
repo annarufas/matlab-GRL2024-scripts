@@ -52,17 +52,11 @@ The following scripts have been run in this order to analyse the data and reprod
 ## Reproducibility
 
 Our scripts showcase the application of Monte Carlo-based techniques for error propagation across diverse datasets of biological carbon pump (BCP) mesopelagic transfer efficiency metrics. Specifically, the scripts are hard-wired to handle data from our six designated study sites:
-
 - the Hawaii Ocean Time-series (HOT) station ALOHA (HOT/ALOHA), in the subtropical NE Pacific (22.45ºN, 158ºW);
-
 - the Bermuda Atlantic Time-Series/Oceanic Flux Program joint site (BATS/OFP), in the subtropical NW Atlantic (31.6ºN, 64.2ºW);
-
 - the US JGOFS Equatorial Pacific process study experimental site (EqPac), in the central equatorial Pacific upwelling system (–2 to 2ºN, 140ºW);
-
 - the Porcupine Abyssal Plain time-Series Observatory (PAP-SO), in the subpolar NE Atlantic (49.0ºN, 16.5ºW);
-
 - Ocean Station Papa (OSP), in the HNLC region of the subpolar NE Pacific (50ºN, 145ºW), and
-
 - the Long-Term Ecological Research (LTER) observatory HAUSGARTEN, in the polar Atlantic-Arctic boundary (79ºN, 4.0ºE).
 
 ## Author
