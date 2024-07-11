@@ -1,6 +1,6 @@
 # matlab-GRL2024-scripts
 
-This repository contains the set of MATLAB scripts used for data analysis and creation of the figures in the GRL paper "Can we Constrain Geographical Variability in the Biological Carbon Pump's Transfer Efficiency from Observations?".
+This repository contains the set of MATLAB scripts and datasets used for data analysis and the creation of the figures in the GRL paper "Can we Constrain Geographical Variability in the Biological Carbon Pump's Transfer Efficiency from Observations?".
 
 ## Requirements
 
