@@ -4,25 +4,24 @@ This repository contains the set of MATLAB scripts used for data analysis and cr
 
 ## Requirements
 
-In order to use the content of this repository you will need the following.
+To use the content of this repository, ensure you have the following.
 
-- Have MATLAB's version R2021a or more recent installed in your machine. 
-- Download the third-party functions from [MATLAB'S File Exchange](https://mathworks.com/matlabcentral/fileexchange/) necessary to run the scripts in this repository: `worstcase`, `MCErrorPropagation`, `swtest.m`, `FMINSEARCHBND`, `m_map`, `brewermap` and `longhurst_v4_2010`. Once downloaded, please place the functions in the `./resources/external/` directory.
-- Install two MATLAB toolboxes: the Optimization toolbox, necessary to run `worstcase`, and the Statistics and Machine Learning toolbox, necessary to run `MCErrorPropagation` and `swtest.m`.
+- MATLAB version R2021a or later installed. 
+- Third-party functions downloaded from [MATLAB'S File Exchange](https://mathworks.com/matlabcentral/fileexchange/): `worstcase`, `MCErrorPropagation`, `swtest.m`, `FMINSEARCHBND`, `m_map`, `brewermap` and `longhurst_v4_2010`. Once downloaded, please place the functions in the `./resources/external/` directory.
+- MATLAB toolboxes: the Optimization toolbox, necessary to run `worstcase`, and the Statistics and Machine Learning toolbox, necessary to run `MCErrorPropagation` and `swtest.m`.
 
 ## Data used in this repository
 
-This project uses various raw oceanographic datasets downloaded from online repositories. Due to their large size, these datasets are not included in this repository. Below are the details of the required datasets and their sources.
+This project uses various raw oceanographic datasets downloaded from online repositories, stored in the `./data/raw/` folder.
+
+- Particle concentration measurements from the Underwater Vision Profiler 5 (UVP5) downloaded from the Ecotaxa repository hosted by [IFREMER](https://ecopart.obs-vlfr.fr). This dataset is stored in the subfolder `./data/raw/UVP5`.
+- Particulate organic carbon (POC) flux measurements from sediment traps and radionuclides, a compilation that we made for this study. The file, `dataset_s0_trap_and_radionuclide_compilation.xlsx`, is not available within this repository as it contains data owned by other authors that are not in a preservation repository. References for constructing this dataset are provided in the Supporting Information of our paper, Tables S1-S6.
+
+Due to their large size, the following datasets are not included in `./data/raw/` but instructions for acquiring them are provided. Place the corresponding `.mat` files in `./data/raw/`. 
 
 - The World Ocean Atlas 2018 monthly climatology for **temperature**, which you can download from the [NOAA website](https://accession.nodc.noaa.gov/NCEI-WOA18). Once downloaded, read all the .nc files and store them in a single array and save it as `woa18_global.mat`. This file is necessary to run the Marsay et al. (2015) algorithm.
 - The AVHRR Pathfinder v.5.0 global 4 km monthly climatology (1985--2001) for **sea surface temperature**, which you can download from the [NOAA website](https://www.ncei.noaa.gov/archive/accession/AVHRR_Pathfinder-NODC-v5.0-climatologies). Once downloaded, read all the .nc files and store them in a single array and save it as `sst_global.mat`. This file is necessary to run the Henson et al. (2012) algorithm.
 - The SeaWiFS 9 km monthly climatology (1997--2010) for **chlorophyll concentration** and **photosynthetically available radiation**, which you can downlaod from the [NASA website](https://oceancolor.gsfc.nasa.gov/l3/). Once downloaded, read all the .nc files and store them in a single array and save it as `chla_seawifs_global.mat` and `par0_seawifs_global.mat` respectively. These files are necessary to run the Henson et al. (2012) algorithm.
-
-Save all the above `.mat` files in the folder `./data/raw/`. 
-
-Other datasets are included in this repository in the folder `./data/raw/`.
-- The compilation of particulate organic carbon (POC) flux measurements from sediment traps and radionuclides at the six ocean time-series sites used in this study, `dataset_s0_trap_and_radionuclide_compilation.xlsx`.
-- The Underwater Vision Profiler 5 (UVP5) data downloaded from the Ecotaxa repository hosted by [IFREMER](https://ecopart.obs-vlfr.fr) and stored in the folder `UVP5`.
 
 ## Available MATLAB scripts in the folder `./code`
 
