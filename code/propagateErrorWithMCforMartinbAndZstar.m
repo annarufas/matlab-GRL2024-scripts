@@ -2,13 +2,12 @@ function [martinbAnnual,zstarAnnual,martinbMonthly_gof,zstarMonthly_gof] =...
     propagateErrorWithMCforMartinbAndZstar(nLocs,arrayDepths,arrayFlux)
 
 % PROPAGATEERRORWITHMCFORMARTINBANDZSTAR Calculates average Martin's b and
-% z* and propagates error from POC flux data from our compilation of
-% sediment traps nad radionuclides and the UVP5-derived estimates.
+% z* and propagates error from POC flux data.
 %
 %   INPUT: 
 %       nLocs       - number of locations
 %       arrayDepths - depths of POC flux
-%       arrayFlux   - POC flux, with dimensions: 2 (zeu, zmeso) x 12 x nLocs x 2 (avg, err)
+%       arrayFlux   - POC flux, with dimensions: depths x 12 months x nLocs x 2 (avg, err)
 %
 %   OUTPUT:
 %       martinbAnnual - Martin's b coefficient, with dimensions: nLocs x 5 (median, uppCI, lowCI, max, min)
