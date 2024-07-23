@@ -1,29 +1,30 @@
-function [teffAnnual] = propagateErrorWithMCforPEeffAndTeff(...
-    nLocs,nNppAlgos,latsLocal,lonsLocal,arrayFlux)
+function [teffAnnual,peeffAnnual] = propagateErrorWithMCforPEeffAndTeff(...
+    nLocs,latsLocal,lonsLocal,fullpathRawDataDir,filenameNppDataset,arrayFlux)
 
 % PROPAGATEERRORWITHMCFORPEEFFANDTEFF Calculates average PEeff and Teff 100 
-% to 1000 m and propagates error from POC flux data from our compilation of
-% sediment traps nad radionuclides and the UVP5-derived estimates.
+% to 1000 m and propagates error from POC flux data.
 %
 %   INPUT: 
-%       nLocs       - number of locations
-%       nNppAlgos   - number of NPP algorithms
-%       latsLocal   - list of latitudes for interpolation for NPP
-%       lonsLocal   - list of longitudes for interpolation for NPP
-%       arrayFlux   - POC flux, with dimensions: 2 (zeu, zmeso) x 12 x nLocs x 2 (avg, err)
+%       nLocs              - number of locations
+%       latsLocal          - list of latitudes for interpolation for NPP
+%       lonsLocal          - list of longitudes for interpolation for NPP
+%       fullpathRawDataDir - directory where the NPP datasets are stored
+%       filenameNppDataset - name of the NPP dataset(s)
+%       arrayFlux          - POC flux, with dimensions: 2 (zeu, zmeso) x 12 x nLocs x 2 (avg, err)
 %
 %   OUTPUT:
 %       teffAnnual  - transfer efficiency 100 to 1000 m, with dimensions: nLocs x 5 (median, uppCI, lowCI, max, min)
+%       peeffAnnual - particle export efficiency
 %                              
-%   This script uses three external functions: 
-%       extractLocalNPP.m      - custom function
+%   This script uses two external functions: 
 %       generateMCparameters.m - from FileExchange
 %       propagateErrorWithMC.m - from FileExchange
 %
 %   WRITTEN BY A. RUFAS, UNIVERISTY OF OXFORD
 %   Anna.RufasBlanco@earth.ox.ac.uk
 %
-%   Version 1.0 - Completed 9 April 2024   
+%   Version 1.0 - Completed 9 April 2024 
+%   Version 2.0 - Completed 23 Jul 2024 
 %
 % =========================================================================
 %%
@@ -44,22 +45,23 @@ NUM_MONTE_CARLO_SAMPLES = 1e5;
 teffMonthly = NaN(12,nLocs,5); % 3rd dimension: 1=median, 2=upp CI, 3=low CI, 4=max, 5=min
 teffMonthly_mcvals = NaN(12,nLocs,NUM_MONTE_CARLO_SAMPLES);
 teffAnnual = NaN(nLocs,5);
+% nNppAlgos = length(filenameNppDataset);
 % peeffMonthly = NaN(12,nLocs,nNppAlgos,3); % 4th dimension: 1=median, 2=upp CI, 3=low CI
 % peeffMonthly_mcvals = NaN(12,nLocs,nNppAlgos,NUM_MONTE_CARLO_SAMPLES);
 % peeffAnnual = NaN(nLocs,5); % 5th dimension: 1=median, 2=upp CI, 3=low CI, 4=max, 5=min
 
-% %Get local NPP (mg C m-2 d-1) for PEeff calculations
-% [nppAvg,nppErr] = extractLocalNPP(nLocs,nNppAlgos,latsLocal,lonsLocal,...
-%     './data/raw/','npp_cafe_modis.mat','npp_vgpm.mat','npp_cbpm.mat');
+% Get local NPP (mg C m-2 d-1) for PEeff calculations
+% [nppAvg,nppErr] = extractLocalNPP(nLocs,latsLocal,lonsLocal,...
+%     fullpathRawDataDir,filenameNppDataset);
 
 %% Calculate monthly averages 
 
-fprintf('\nStart monthly calculations of Teff...')
+fprintf('\nStart monthly calculations of Teff and PEeff...')
 
 for iLoc = 1:nLocs 
     for iMonth = 1:12
         
-%       % Calculate PEeff
+%         % Calculate PEeff
 %         for iNppAlgo = 1:nNppAlgos
 %             if (~isnan(arrayFlux(1,iMonth,iLoc,1)) && ~isnan(nppAvg(iMonth,iLoc,iNppAlgo)))  
 %                 A = generateMCparameters('gaussian',[arrayFlux(1,iMonth,iLoc,1),...
@@ -109,7 +111,7 @@ fprintf('\n...done.\n')
 
 %% Calculate annual averages
 
-fprintf('\nStart annual calculations of Teff...')
+fprintf('\nStart annual calculations of Teff and PEeff...')
 
 for iLoc = 1:nLocs
     
@@ -188,6 +190,45 @@ for i = 1:length(A)
 end
 
 end % checkForSorting
+
+% *************************************************************************
+
+function [nppAvg,nppErr] = extractLocalNPP(nLocs,latsLocal,lonsLocal,...
+    fullpathRawDataDir,filenameNppDataset)
+
+nNppAlgos = length(filenameNppDataset);
+nppAvg = zeros(12,nLocs,nNppAlgos); % mg C m-2 d-1
+nppErr = zeros(12,nLocs,nNppAlgos); % mg C m-2 d-1
+
+for iNppAlgo = 1:nNppAlgos
+
+    load(strcat(fullpathRawDataDir,filenameNppDataset{iNppAlgo}),...
+        'npp_avg','npp_lat','npp_lon','npp_err') % mg C m-2 d-1
+
+    % Create grid for interpolation (data extraction)
+    [Xpp, Ypp, Tpp] = ndgrid(npp_lat, npp_lon, (1:12)');
+    Favg = griddedInterpolant(Xpp, Ypp, Tpp, npp_avg);
+    Ferr = griddedInterpolant(Xpp, Ypp, Tpp, npp_err);
+    
+    % Extract local data
+    for iLoc = 1:nLocs
+        [qX, qY, qT] = ndgrid(latsLocal(iLoc), lonsLocal(iLoc), (1:12)'); 
+        qNppAvg = squeeze(Favg(qX, qY, qT)); 
+        qNppErr = squeeze(Ferr(qX, qY, qT));
+        % Zero entries must be set to the min value in the array so that we 
+        % don't have null NPP
+        qNppAvg(qNppAvg==0) = min(npp_avg(npp_avg > 0),[],'all'); 
+        qNppErr(qNppErr==0) = min(npp_err(npp_err > 0),[],'all');
+        nppAvg(:,iLoc,iNppAlgo) = qNppAvg;
+        nppErr(:,iLoc,iNppAlgo) = qNppErr;
+    end
+    
+    % Good to clear before loading the next dataset
+    clear npp_avg npp_err npp_lat npp_lon
+    
+end
+
+end % extractLocalNPP
 
 % *************************************************************************
 
