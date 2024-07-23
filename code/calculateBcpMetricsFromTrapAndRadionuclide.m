@@ -66,8 +66,8 @@ arrayFlux(2,:,:,2) = permute(xezmeso,[2,1]);
 
 fprintf('\nInitiate calculation of Teff...\n')
         
-[teffAnnual] = propagateErrorWithMCforPEeffAndTeff(...
-    nLocs,0,latsLocal,lonsLocal,arrayFlux);
+[teffAnnual,~] = propagateErrorWithMCforPEeffAndTeff(...
+    nLocs,latsLocal,lonsLocal,[],[],arrayFlux);
 
 fprintf('\n...done.\n')
 
