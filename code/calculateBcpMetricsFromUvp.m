@@ -59,8 +59,8 @@ arrayFlux(2,:,:,2) = uvpMonthlyFlux(iz1000,:,:,2); % net error at 1000 m
 
 fprintf('\nInitiate calculation of Teff...\n')
 
-[teffAnnual] = propagateErrorWithMCforPEeffAndTeff(...
-    nLocs,0,latsLocal,lonsLocal,arrayFlux);
+[teffAnnual,~] = propagateErrorWithMCforPEeffAndTeff(...
+    nLocs,latsLocal,lonsLocal,[],[],arrayFlux);
 
 fprintf('\n...done.\n')
 
