@@ -17,7 +17,7 @@
 %   Anna.RufasBlanco@earth.ox.ac.uk                                       %
 %                                                                         %
 %   Version 1.0 - Completed 6 Jun 2024                                    %
-%   Version 2.0 - 28 Aug 2024: handle NaN POC flux values correctly       %                                   %
+%   Version 2.0 - 28 Aug 2024: handle NaN POC flux values correctly       %                                   
 %                                                                         %
 % ======================================================================= %
 
@@ -96,6 +96,7 @@ save(fullfile('.','data','processed',filenameTimeseriesInformation),...
     'LOC_LATS','LOC_LONS','LOC_DEPTH_HORIZONS','STATION_NAMES',...
     'STATION_TAGS','NUM_LOCS','NUM_TARGET_DEPTHS')
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 2 - LOAD THE DATASET AND MANIPULATE THE DATA ARRAY
@@ -131,6 +132,7 @@ D.randerr_POC_mmol_m2_d(isnan(D.randerr_POC_mmol_m2_d)) = RAND_ERR_FRAC .* D.POC
 % Update random error in mg/m^2/d
 D.randerr_POC_mg_m2_d = MOLAR_MASS_CARBON .* D.randerr_POC_mmol_m2_d;
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 3 - BIN DATA MONTHLY BY DEPTH HORIZON AND PROPAGATE ERROR
@@ -281,6 +283,7 @@ DP = D(D.depthHorizon ~= 'NaN',:); % data processed
 
 clear vals errRand errSys
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 4 - BIN DATA MONTHLY BY UNIQUE DEPTH AND PROPAGATE ERROR
@@ -414,6 +417,7 @@ for iLoc = 1:NUM_LOCS
     end % iMonth
 end % iLoc
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 5 - BIN DATA ANNUALLY AND PROPAGATE ERROR
@@ -464,6 +468,7 @@ for iLoc = 1:NUM_LOCS
     end
 end
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 6 - CALCULATE THE NUMBER OF DATA POINTS BASED ON VARIOUS CRITERIA
@@ -547,6 +552,7 @@ for iLoc = 1:NUM_LOCS
 end
 checkNumEntries = tablendp(1,6,2); % see in 6th loc, zeu for method 2 (radionuclide)
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 7 - SAVE THE DATA
