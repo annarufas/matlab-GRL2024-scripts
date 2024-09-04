@@ -1,3 +1,4 @@
+
 % ======================================================================= %
 %                                                                         %
 % This script produces all the figures in our paper related to our POC    %
@@ -27,6 +28,7 @@ addpath(genpath('./code/'));
 addpath(genpath('./resources/external/'));
 addpath(genpath('./resources/internal/'));
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 1 - PRESETS
@@ -49,6 +51,7 @@ MAX_NUM_VALUES_PER_MONTH = 1000;
 
 monthLabel = {'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'};
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 2 - PLOT FIGURE 3 (POC FLUX DATA BY STATION AND MONTH)
@@ -315,6 +318,7 @@ for iLoc = 1:NUM_LOCS
 
 end % iLoc
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 3 - PLOT FIGURE S1A (NO. ENTRIES BY MONTH, LOCATION AND DEPTH
@@ -363,6 +367,7 @@ set(gca, 'FontSize', 12);
 
 exportgraphics(gcf,fullfile('.','figures','compilation_numberdatapoints.png'),'Resolution',600)
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 4 - PLOT FIGURE S1B (PERCENTAGE UNCERTAINTY BY MONTH, LOCATION
@@ -412,6 +417,7 @@ set(gca,'FontSize',12)
 
 exportgraphics(gcf,fullfile('.','figures','compilation_percentageuncertainty.png'),'Resolution',600)
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 5 - PLOT FIGURE S2 (MONTHLY FLUXES AND THEIR ERROR BY LOCATION
