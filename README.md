@@ -1,6 +1,16 @@
-# matlab-GRL2024-scripts
+# Can we Constrain Geographical Variability in the Biological Carbon Pump's Transfer Efficiency from Observations?
 
-This repository contains the set of MATLAB scripts and datasets used for data analysis and the creation of the figures in the GRL paper "Can we Constrain Geographical Variability in the Biological Carbon Pump's Transfer Efficiency from Observations?".
+This repository contains the MATLAB scripts and datasets used for the data analysis and figure generation in the study: 
+
+**"Can We Constrain Geographical Variability in the Biological Carbon Pump's Transfer Efficiency from Observations?"**
+
+A. Rufas<sup>1</sup>, S. Khatiwala<sup>1</sup>, K. M. Bisson<sup>2</sup>, A. P. Martin<sup>3</sup>, H. A. Bouman<sup>1</sup>
+
+<sup>1</sup>Department of Earth Sciences, University of Oxford, Oxford, UK  
+<sup>2</sup>NASA Headquarters Science Mission Directorate, Santa Barbara, CA, US  
+<sup>3</sup>National Oceanography Centre, Southampton, UK
+
+Find the pre-print in the [Earth and Space Science Open Archive](https://essopenarchive.org/users/806280/articles/1197117-can-we-constrain-geographical-variability-in-the-biological-carbon-pump-s-transfer-efficiency-from-observations).
 
 ## Requirements
 
