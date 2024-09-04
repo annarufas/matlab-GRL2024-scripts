@@ -1,3 +1,4 @@
+
 % ======================================================================= %
 %                                                                         %
 % This script reads in particle concentration data from the UVP5          %
@@ -80,6 +81,7 @@ LON_LEFT(4) = -65;     LON_LEFT(5) = -158.5;   LON_LEFT(6) = 3.5;
 SUFFIX_ECOTAXA_FOLDER_NAME = {'EqPac','OSP','PAPSO','BATSOFP','HOTALOHA','HAUSGARTEN'};
 PREFIX_ECOTAXA_FOLDER_NAME = 'export_detailed_'; % common name part to all folders with UVP data
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 2 - READ IN ECOTAXA PARTICLE FILES AND SAVE THE DATA INTO .MAT ARRAYS
@@ -113,6 +115,7 @@ binEdges = binEdges*1e-3;
 binMiddle = binMiddle*1e-3;
 binWidth = binWidth*1e-3;
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 3 - CALCULATE POC FLUX
@@ -198,6 +201,7 @@ if ~isPocFluxReady
     
 end % ~isPocFluxReady
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 4 - SORT DATA INTO A UNIQUE ARRAY SORTED BY CASTS, DEPTHS, MONTHS
@@ -215,6 +219,7 @@ maxNumCastsPerMonth = max(castMonthlyDistrib,[],'all');
     SUFFIX_ECOTAXA_FOLDER_NAME,NUM_LOCS,maxNumCastsPerMonth,targetDepths,...
     nTargetDepths,suffixFluxFilename);
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 5 - CALCULATE MONTHLY AVERAGES AND PROPAGATE ERROR
@@ -262,6 +267,7 @@ for iLoc = 1:NUM_LOCS
     end % iMonth
 end % iLoc
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 6 - CALCULATE ANNUAL AVERAGES AND PROPAGATE ERROR
@@ -300,6 +306,7 @@ for iLoc = 1:NUM_LOCS
     end % iDepth
 end % iLoc
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 7 - SAVE THE DATA
