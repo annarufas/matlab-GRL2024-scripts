@@ -1,3 +1,4 @@
+
 % ======================================================================= %
 %                                                                         %
 % This script finds matchups between the POC flux data from the trap and  %
@@ -47,6 +48,7 @@ load(fullfile('.','data','processed',filenameMonthlyPocFlux),...
 % Load station information
 load(fullfile('.','data','processed',filenameTimeseriesInformation))
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 2 - FIND MATCHUPS BETWEEN THE UVP5-DERIVED ESTIMATES AND THE TRAP
@@ -108,6 +110,7 @@ uvp = squeeze(uvpMonthlyFlux(:,:,:,1));
 uvpresh = reshape(uvp, [], 1);
 monthlyNumberOfEntriesEstimated = sum(~isnan(uvpresh), 'all');
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 3 - PLOT FIGURE 3 (MATCHUPS)
