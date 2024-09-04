@@ -17,6 +17,7 @@
 %   Anna.RufasBlanco@earth.ox.ac.uk                                       %
 %                                                                         %
 %   Version 1.0 - Completed 6 Jun 2024                                    %
+%   Version 2.0 - 28 Aug 2024: handle NaN POC flux values correctly       %                                   %
 %                                                                         %
 % ======================================================================= %
 
@@ -34,8 +35,8 @@ addpath(genpath('./resources/internal/'));
 % -------------------------------------------------------------------------
 
 % Filename declarations 
-filenamePocFluxCompilation    = 'dataset_s1_trap_and_radionuclide_compilation.xlsx';
-filenameMonthlyPocFlux        = 'pocflux_compilation_monthly.mat';
+filenameFluxCompilation       = 'dataset_s0_trap_and_radionuclide_compilation.xlsx';
+filenameMonthlyFlux           = 'pocflux_compilation_monthly.mat';
 filenameTimeseriesInformation = 'timeseries_station_information.mat';
 
 % Define parameters
@@ -101,11 +102,11 @@ save(fullfile('.','data','processed',filenameTimeseriesInformation),...
 % -------------------------------------------------------------------------
 
 % Load the excel spreadhseet with flux data
-opts = detectImportOptions(filenamePocFluxCompilation);
+opts = detectImportOptions(filenameFluxCompilation);
 opts = setvartype(opts,{'POC_mmol_m2_d','POC_mg_m2_d','randerr_POC_mmol_m2_d','randerr_POC_mg_m2_d'},'double');
 opts = setvartype(opts,{'deploymentDate','midDate','recoveryDate'},'datetime');
 opts = setvartype(opts,{'method','source','originalUnits','comments'},'string');
-D = readtable(filenamePocFluxCompilation,opts);
+D = readtable(filenameFluxCompilation,opts);
 
 % Add a 'month' and a 'year' column
 D.month = month(D.midDate);
@@ -142,6 +143,7 @@ D.randerr_POC_mg_m2_d = MOLAR_MASS_CARBON .* D.randerr_POC_mmol_m2_d;
 tagPocValues = 'POC_mmol_m2_d';
 tagSysError = 'syserr_POC_mmol_m2_d';
 tagRandError = 'randerr_POC_mmol_m2_d';
+
 tagDepthHorizons = {'zeu','zmeso','zbathy'};
 
 % Define output arrays
@@ -178,14 +180,18 @@ for iLoc = 1:NUM_LOCS
     colIdsAll(6) = find(strcmpi(currStatData.Properties.VariableNames,'method'));
 
     % Extract those
-%     currVarDataAll = table; % initialise a table
-%     currVarDataAll = currStatData(:,colIdsAll');
     currStatData = currStatData(:,colIdsAll');
+            
+    % Identify rows with any NaN values
+    rowsWithNaN = any(ismissing(currStatData), 2);
+
+    % Remove rows with NaN values
+    currStatDataNonNaN = currStatData(~rowsWithNaN, :);
     
     % Save all data to output arrays
     for iMonth = 1:12
         currMonthData = table;
-        currMonthData = currStatData(currStatData.month == num2str(iMonth),:);
+        currMonthData = currStatDataNonNaN(currStatDataNonNaN.month == num2str(iMonth),:);
         if (~isempty(currMonthData))
             obsRawProfileValues_cell{iLoc,iMonth} = num2str(currMonthData{:,1}'); 
             obsRawProfileErrSys_cell{iLoc,iMonth} = num2str(currMonthData{:,2}');
@@ -200,8 +206,8 @@ for iLoc = 1:NUM_LOCS
     for iDh = 1:NUM_TARGET_DEPTHS
         
         currDhData = table; % initialise a table
-        currDhData = currStatData(currStatData.depth > LOC_DEPTH_HORIZONS(iLoc,1,iDh)...
-            & currStatData.depth < LOC_DEPTH_HORIZONS(iLoc,2,iDh),:);
+        currDhData = currStatDataNonNaN(currStatDataNonNaN.depth > LOC_DEPTH_HORIZONS(iLoc,1,iDh)...
+            & currStatDataNonNaN.depth < LOC_DEPTH_HORIZONS(iLoc,2,iDh),:);
        
         % Add the depth horizon tag to currDhData
         currDhData.depthHorizon(:) = repmat(tagDepthHorizons(iDh),height(currDhData),1);
@@ -547,7 +553,7 @@ checkNumEntries = tablendp(1,6,2); % see in 6th loc, zeu for method 2 (radionucl
 % -------------------------------------------------------------------------
 
 % Save monthly fluxes
-save(fullfile('.','data','processed',filenameMonthlyPocFlux),...
+save(fullfile('.','data','processed',filenameMonthlyFlux),...
     'obsRawProfileValues_cell','obsRawProfileErrRand_cell','obsRawProfileErrSys_cell',...
     'obsRawProfileDepths_cell','obsRawProfileDataType_cell','obsRawProfileValues',...
     'obsRawProfileErrRand','obsRawProfileErrSys','obsRawProfileDepths','obsRawProfileDataType',...
