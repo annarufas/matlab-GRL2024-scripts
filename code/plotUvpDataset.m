@@ -1,3 +1,4 @@
+
 % ======================================================================= %
 %                                                                         %
 % This script plots the POC flux data derived from the UVP5 dataset. It   %
@@ -21,6 +22,7 @@ addpath(genpath('./code/'));
 addpath(genpath('./resources/external/'));
 addpath(genpath('./resources/internal/'));
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 1 - PRESETS
@@ -52,6 +54,7 @@ load(fullfile('.','data','processed',filenameTimeseriesInformation))
 % Labels used for the plots
 monthsLabel = {'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'};
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 2 - PLOT NUMBER OF CASTS
@@ -77,6 +80,7 @@ set(lg,'Box','off')
 
 exportgraphics(gcf,fullfile('.','figures','uvp_numbercasts_45sizeclasses.png'),'Resolution',600)
 
+% =========================================================================
 %%
 % -------------------------------------------------------------------------
 % SECTION 3 - PLOT FIGURE S3 (THE UVP5-DERIVED POC FLUXES COMPARED TO OUR
