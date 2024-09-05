@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI-10.5281/zenodo.12722806.svg)](https://doi.org/10.5281/zenodo.12722806)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12722806.svg)](https://doi.org/10.5281/zenodo.12722806)
 
 # Can we Constrain Geographical Variability in the Biological Carbon Pump's Transfer Efficiency from Observations?
 
