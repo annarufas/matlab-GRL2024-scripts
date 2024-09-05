@@ -69,10 +69,6 @@ Our scripts showcase the application of Monte Carlo-based techniques for error p
 - Ocean Station Papa (OSP), in the HNLC region of the subpolar NE Pacific (50ºN, 145ºW), and
 - the Long-Term Ecological Research (LTER) observatory HAUSGARTEN, in the polar Atlantic-Arctic boundary (79ºN, 4.0ºE).
 
-## Author
-
-* [**Anna Rufas**](mailto://Anna.RufasBlanco@earth.ox.ac.uk)
-
 ## Acknowledgments
 
 This work was completed as part of my PhD project at the University of Oxford under the NERC large grant COMICS (Controls over Ocean Mesopelagic Interior Carbon Storage, NE/M020835/2). I also acknowledge funding from the University of Oxford's Covid-19 Scholarship Extension Fund and Oxford's Wolfson College Covid-19 Hardship Fund.
