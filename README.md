@@ -1,5 +1,7 @@
 # Can we Constrain Geographical Variability in the Biological Carbon Pump's Transfer Efficiency from Observations?
 
+[fig_uncertainty.pdf](https://github.com/user-attachments/files/16888004/fig_uncertainty.pdf)
+
 This repository contains the MATLAB scripts and datasets used for the data analysis and figure generation in the study: 
 
 **"Can We Constrain Geographical Variability in the Biological Carbon Pump's Transfer Efficiency from Observations?"**
