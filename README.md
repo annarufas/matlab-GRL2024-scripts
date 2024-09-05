@@ -3,7 +3,7 @@
 # Can we Constrain Geographical Variability in the Biological Carbon Pump's Transfer Efficiency from Observations?
 
 ![Comparison of published BCP mesopelagic transfer efficiency metrics across six
-ocean sites associated with time-series programs](./figures/README_cover.png)
+ocean sites associated with time-series programs](https://github.com/user-attachments/assets/adfb90ab-149a-48fb-a884-4acb48264072)
 
 This repository contains the MATLAB scripts and datasets used for the data analysis and figure generation in the study: 
 
