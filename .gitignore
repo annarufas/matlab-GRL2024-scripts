@@ -11,4 +11,5 @@ data/raw/sst_global.mat
 data/raw/par0_seawifs_global.mat
 data/raw/chla_seawifs_global.mat
 data/raw/dataset_s0_trap_and_radionuclide_compilation.xlsx
+README_cover.png
 .DS_Store
