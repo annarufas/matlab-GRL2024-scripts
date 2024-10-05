@@ -22,8 +22,8 @@ Find the pre-print in the [Earth and Space Science Open Archive](https://essopen
 To use the content of this repository, ensure you have the following.
 
 - MATLAB version R2021a or later installed. 
-- Third-party functions downloaded from [MATLAB'S File Exchange](https://mathworks.com/matlabcentral/fileexchange/): `worstcase`, `MCErrorPropagation`, `swtest.m`, `FMINSEARCHBND`, `m_map`, `brewermap` and `longhurst_v4_2010`. Once downloaded, please place the functions in the `./resources/external/` directory.
-- MATLAB toolboxes: the Optimization toolbox, necessary to run `worstcase`, and the Statistics and Machine Learning toolbox, necessary to run `MCErrorPropagation` and `swtest.m`.
+- Third-party functions downloaded from [MATLAB'S File Exchange](https://mathworks.com/matlabcentral/fileexchange/): `worstcase`, `MCErrorPropagation`, `swtest.m`, `FMINSEARCHBND`, `m_map`, `brewermap`, `longhurst_v4_2010`, `subaxis` and `plotBarStackGroups`. Once downloaded, please place the functions in the `./resources/external/` directory.
+- MATLAB toolboxes: the [Optimization Toolbox](https://uk.mathworks.com/products/optimization.html), necessary to run `worstcase`, and the [Statistics and Machine Learning Toolbox](https://uk.mathworks.com/products/statistics.html), necessary to run `MCErrorPropagation` and `swtest.m`.
 
 ## Data used in this repository
 
@@ -48,8 +48,8 @@ The following scripts have been run in this order to analyse the data and reprod
 | 2  | processPocFluxFromTrapAndRadCompilation.m    | Analyses Dataset S0                              |
 | 3  | plotPocFluxFromTrapAndRadCompilation.m       | Creates Figure 2, S1 and S2                      |
 | 4  | processPocFluxFromUvp.m                      | Anayses the UVP5 dataset downloaded from Ecotaxa |
-| 5  | plotUvpDataset.m                             | Creates Figure S3                                | 
-| 6  | findAndPlotUvpVsObsMatchups.m                | Creates Figure 3                                 |
+| 5  | plotPocFluxFromUvp.m                         | Creates Figure S3                                | 
+| 6  | findAndPlotUvpVsCompilationPocFluxMatchups.m | Creates Figure 3                                 |
 | 7  | processBcpMetrics.m                          | Calculates b, z* and Teff                        |
 | 8  | plotBcpMetrics.m                             | Creates Figure 4                                 |
 | 9  | calculateBcpMetricsFromTrapAndRadionuclide.m | Called by script num. 7                          |
