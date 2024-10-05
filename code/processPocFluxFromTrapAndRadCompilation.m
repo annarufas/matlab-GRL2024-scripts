@@ -279,6 +279,7 @@ iEmptyRows = find(isEmptyDhTag);
 nEmptyRows = length(iEmptyRows);
 D.depthHorizon(iEmptyRows) = repmat({'NaN'},nEmptyRows,1);
 D.depthHorizon = categorical(D.depthHorizon);
+TRAPRAD_TABLE = D;
 DP = D(D.depthHorizon ~= 'NaN',:); % data processed
 
 clear vals errRand errSys
@@ -566,6 +567,6 @@ save(fullfile('.','data','processed',filenameMonthlyFlux),...
     'obsRawDhValues_cell','obsRawDhDepths_cell','obsRawDhDataType_cell',...
     'obsMonthlyProfileAvg','obsMonthlyProfileErrTot','obsMonthlyProfileDepths',...
     'obsMonthlyDhAvg','obsMonthlyDhN','obsMonthlyDhErrRand','obsMonthlyDhErrSys',...
-    'obsMonthlyDhErrTot','nUniqueObsDepths')
+    'obsMonthlyDhErrTot','obsAnnualDhAvg','obsAnnualDhErrTot','nUniqueObsDepths','TRAPRAD_TABLE')
 
 fprintf('\nThe POC flux compilation data have been saved correctly.\n')
