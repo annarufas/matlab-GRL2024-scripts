@@ -20,7 +20,7 @@ function [uvp] = calculateBcpMetricsFromUvp(nLocs,latsLocal,lonsLocal)
 %   WRITTEN BY A. RUFAS, UNIVERISTY OF OXFORD
 %   Anna.RufasBlanco@earth.ox.ac.uk
 %
-%   Version 1.0 - Completed 9 April 2024   
+%   Version 1.0 - Completed 5 Oct 2024   
 %
 % =========================================================================
 %%
@@ -31,20 +31,26 @@ function [uvp] = calculateBcpMetricsFromUvp(nLocs,latsLocal,lonsLocal)
 %% Definitions
 
 % Filename declarations 
-filenameUvpProcessedDataset45sc = 'pocflux_bisson_45sc_monthly_and_annual.mat';
+filenameUvpProcessedDataset45sc = 'pocflux_bisson_45sc_monthly_and_annual_all_depths.mat';
 
 % Define parameters
 NUM_NPP_ALGOS = 3; % CAFE, VGPM, CbPM
 
 % Load the UVP5 dataset 
 load(fullfile('.','data','processed','UVP5',filenameUvpProcessedDataset45sc),...
-    'uvpMonthlyFlux','targetDepths')
+    'uvpMonthlyFlux','ecotaxaDepths')
 
-% Get index to depths where BCP metrics will be calculated
-[~,iz1000] = min(abs(targetDepths-1000));
-%find(targetDepths>=1000,1); 
-% iz100 = find(targetDepths>=100,1); 
-[~,iz100] = min(abs(targetDepths-100));
+% Reduce uvpMonthlyFlux to target fit depths only
+metricFitDepths = [100,150,200,250,300,500,750,1000,1500,2000]';
+izFitDepths = NaN(numel(metricFitDepths),1);
+for iDepth = 1:numel(metricFitDepths)
+    [~,izFitDepths(iDepth)] = min(abs(ecotaxaDepths - metricFitDepths(iDepth)));
+end    
+uvpMonthlyFluxFit = uvpMonthlyFlux(izFitDepths,:,:,:);          
+
+% Get index to specific depths horizons
+[~,iz1000] = min(abs(metricFitDepths-1000));
+[~,iz100] = min(abs(metricFitDepths-100));
 
 %% Calculate PEeff and Teff
 
@@ -52,10 +58,10 @@ load(fullfile('.','data','processed','UVP5',filenameUvpProcessedDataset45sc),...
 % 1st dimension: 1=at zeu, 2=at zmeso
 % 4th dimension: 1=avg, 2=net error 
 arrayFlux = NaN(2,12,nLocs,2); 
-arrayFlux(1,:,:,1) = uvpMonthlyFlux(iz100,:,:,1); % avg at 100 m
-arrayFlux(1,:,:,2) = uvpMonthlyFlux(iz100,:,:,2); % net error at 100 m
-arrayFlux(2,:,:,1) = uvpMonthlyFlux(iz1000,:,:,1); % avg at 1000 m
-arrayFlux(2,:,:,2) = uvpMonthlyFlux(iz1000,:,:,2); % net error at 1000 m
+arrayFlux(1,:,:,1) = uvpMonthlyFluxFit(iz100,:,:,1); % avg at 100 m
+arrayFlux(1,:,:,2) = uvpMonthlyFluxFit(iz100,:,:,2); % net error at 100 m
+arrayFlux(2,:,:,1) = uvpMonthlyFluxFit(iz1000,:,:,1); % avg at 1000 m
+arrayFlux(2,:,:,2) = uvpMonthlyFluxFit(iz1000,:,:,2); % net error at 1000 m
 
 fprintf('\nInitiate calculation of Teff...\n')
 
@@ -73,14 +79,14 @@ uvp.teff100to1000.min      = teffAnnual(:,5);
 %% Calculate Martin's b and z*
 
 % Initialise arrays to offload POC flux data
-nDepths     = size(uvpMonthlyFlux(iz100:end,:,:,1),1); 
+nDepths     = size(uvpMonthlyFluxFit(iz100:end,:,:,1),1); 
 arrayFlux   = NaN(nDepths,12,nLocs,2); % 4th dimension: 1=median, 2=net error
 arrayDepths = NaN(nDepths,12,nLocs);
 for iLoc = 1:nLocs
     for iMonth = 1:12
-        arrayFlux(:,iMonth,iLoc,1) = uvpMonthlyFlux(iz100:end,iMonth,iLoc,1);
-        arrayFlux(:,iMonth,iLoc,2) = uvpMonthlyFlux(iz100:end,iMonth,iLoc,2);
-        arrayDepths(:,iMonth,iLoc) = targetDepths(iz100:end);
+        arrayFlux(:,iMonth,iLoc,1) = uvpMonthlyFluxFit(iz100:end,iMonth,iLoc,1);
+        arrayFlux(:,iMonth,iLoc,2) = uvpMonthlyFluxFit(iz100:end,iMonth,iLoc,2);
+        arrayDepths(:,iMonth,iLoc) = metricFitDepths(iz100:end);
     end
 end
 
