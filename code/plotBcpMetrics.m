@@ -3,10 +3,10 @@
 %                                                                         %
 % This script produces Figure 4 in our paper, a comparison of published   %
 % BCP mesopelagic transfer efficiency metrics (Martin's b coefficient,    % 
-% z* coefficient and Teff 100 to 1000 m) across six ocean sites           %
-% associated with ship-based time-series programs (HOT/ALOHA, BATS/OFP,   %
-% EqPac, PAP-SO, OSP and HAUSGARTEN) arranged by ocean biome (subtropical,%
-% equatorial, subpolar and polar). The figure is finished on PPT.         %                                           %  
+% z* coefficient and Teff) across six ocean sites associated with         %
+% ship-based time-series programs (HOT/ALOHA, BATS/OFP, EqPac, PAP-SO,    %
+% OSP and HAUSGARTEN) arranged by ocean biome (subtropical, equatorial,   %
+% subpolar and polar). The figure is finished on PPT.                     %                                           %  
 %                                                                         %
 %   WRITTEN BY A. RUFAS, UNIVERISTY OF OXFORD                             %
 %   Anna.RufasBlanco@earth.ox.ac.uk                                       %
@@ -64,10 +64,10 @@ iTimeSeries = iUvp + 1;
 % =========================================================================
 %%
 % -------------------------------------------------------------------------
-% SECTION 2 - PLOT FIGURE 5
+% SECTION 2 - PLOT FIGURE 4
 % -------------------------------------------------------------------------
 
-labelMetrics = {'Martin b','z^{*} (m)','T_{eff} (100 to 1000 m)'};
+labelMetrics = {'Martin b','z^{*} (m)','T_{eff}'};
 labelOceanLocations = {'HOT/ALOHA','BATS/OFP','EqPac','PAP-SO','OSP','HAUSGARTEN'};
 
 nSubplots = NUM_LOCS*length(labelMetrics);
