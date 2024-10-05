@@ -38,20 +38,16 @@ addpath(genpath('./resources/internal/'));
 
 % Script options
 isEcotaxaDataReady = 1;
-isPocFluxReady = 0;
-isAllDepths = 1;
+isPocFluxReady = 1;
 
-if isAllDepths
-    suffixFluxFilename = '_flux_data_all_depths.mat';
-    ECOTAXA_VERTICAL_STEP = 5; % 5 m
-    targetDepths = (2.5:ECOTAXA_VERTICAL_STEP:2005)'; % m
-    filenameUvpProcessedDataset45sc = 'pocflux_bisson_45sc_monthly_and_annual_all_depths.mat';
-else % use Bisson et al. (2022) depth definitions
-    suffixFluxFilename = '_flux_data.mat';
-    targetDepths = [7.5, 22.5, 47.5, 97.5, 147.5, 222.5, 297.5, 497.5, 997.5]; % m
-    filenameUvpProcessedDataset45sc = 'pocflux_bisson_45sc_monthly_and_annual.mat';
-end
-nTargetDepths = numel(targetDepths);
+% Filename declarations
+suffixFluxFilename = '_flux_data_all_depths.mat';
+filenameUvpProcessedDataset45sc = 'pocflux_bisson_45sc_monthly_and_annual_all_depths.mat';
+
+% Depth declarations
+ECOTAXA_VERTICAL_STEP = 5; % 5 m
+ecotaxaDepths = (2.5:ECOTAXA_VERTICAL_STEP:2005)'; % m
+nEcotaxaDepths = numel(ecotaxaDepths); % m
 
 % Particle size parameter declarations
 NUM_SIZE_CLASSES = 45;
@@ -73,8 +69,8 @@ LON_LEFT(1) = -152;    LON_LEFT(2) = -146;     LON_LEFT(3) = -17;
 
 % BATS/OFP             % HOT/ALOHA             % HAUSGARTEN  
 LAT_UPPER(4) = 32;     LAT_UPPER(5) = 23;      LAT_UPPER(6) = 80;
-LAT_LOWER(4) = 29.5;   LAT_LOWER(5) = 22;      LAT_LOWER(6) = 78;
-LON_RIGHT(4) = -62;    LON_RIGHT(5) = -157.5;  LON_RIGHT(6) = 5.5;
+LAT_LOWER(4) = 31;     LAT_LOWER(5) = 22;      LAT_LOWER(6) = 79;
+LON_RIGHT(4) = -63;    LON_RIGHT(5) = -157.5;  LON_RIGHT(6) = 5.5;
 LON_LEFT(4) = -65;     LON_LEFT(5) = -158.5;   LON_LEFT(6) = 3.5;
 
 % EcoTaxa folder definitions
@@ -139,7 +135,7 @@ if ~isPocFluxReady
         ET = pnumData;
         
         % Extract data only for the depths of interest
-        matchingDepthRows = ismember(ET.Depth_m_, targetDepths);
+        matchingDepthRows = ismember(ET.Depth_m_, ecotaxaDepths);
         ET = ET(matchingDepthRows,:);
 
         % Crop the particle and sampled volume
@@ -215,10 +211,10 @@ maxNumCastsPerMonth = max(castMonthlyDistrib,[],'all');
 
 % Combine local arrays of particle number concentrations into a single
 % array with dimensions of cast x depth x month x location
-[uvpFluxByCastAvg,uvpFluxByCastErr] = arrangePocFluxDataByLocMonthDepthCast(...
-    SUFFIX_ECOTAXA_FOLDER_NAME,NUM_LOCS,maxNumCastsPerMonth,targetDepths,...
-    nTargetDepths,suffixFluxFilename);
-
+[uvpFluxByCastAvg,uvpFluxByCastErr,UVP_TABLE] = arrangePocFluxDataByLocMonthDepthCast(...
+    SUFFIX_ECOTAXA_FOLDER_NAME,NUM_LOCS,maxNumCastsPerMonth,ecotaxaDepths,...
+    nEcotaxaDepths,suffixFluxFilename);
+    
 % =========================================================================
 %%
 % -------------------------------------------------------------------------
@@ -226,7 +222,7 @@ maxNumCastsPerMonth = max(castMonthlyDistrib,[],'all');
 % -------------------------------------------------------------------------
 
 % Last dimension: 1=mean, 2=error, 3=nSamples
-uvpMonthlyFlux = NaN(nTargetDepths,12,NUM_LOCS,3);
+uvpMonthlyFlux = NaN(nEcotaxaDepths,12,NUM_LOCS,3);
 
 for iLoc = 1:NUM_LOCS
     
@@ -234,7 +230,7 @@ for iLoc = 1:NUM_LOCS
         nCasts = castMonthlyDistrib(iMonth,iLoc);
         
         if (nCasts > 0)
-            for iDepth = 1:nTargetDepths
+            for iDepth = 1:nEcotaxaDepths
 
                 % Number of casts that have reached that depth
                 nCastsInDepth = sum(~isnan(uvpFluxByCastAvg(1:nCasts,iDepth,iMonth,iLoc)));
@@ -274,10 +270,10 @@ end % iLoc
 % -------------------------------------------------------------------------
 
 % Last dimension: 1=mean, 2=error, 3=max, 4=min
-uvpAnnualFlux = NaN(nTargetDepths,NUM_LOCS,4); 
+uvpAnnualFlux = NaN(nEcotaxaDepths,NUM_LOCS,4); 
 
 for iLoc = 1:NUM_LOCS
-    for iDepth = 1:nTargetDepths
+    for iDepth = 1:nEcotaxaDepths
         nCastsInDepthForAllMonths = uvpMonthlyFlux(iDepth,:,iLoc,3);
             
         if (sum(isnan(nCastsInDepthForAllMonths)) > 0)
@@ -315,7 +311,7 @@ end % iLoc
 % Save monthly and annual averages
 save(fullfile('.','data','processed','UVP5',filenameUvpProcessedDataset45sc),...
     'uvpFluxByCastAvg','uvpFluxByCastErr','uvpMonthlyFlux','uvpAnnualFlux',...
-    'targetDepths','castMonthlyDistrib','-v7.3')
+    'ecotaxaDepths','castMonthlyDistrib','UVP_TABLE','-v7.3')
 
 fprintf('\nThe UVP5-derived POC flux dataset has been saved correctly.\n')
 
@@ -341,7 +337,6 @@ for iSc = 1:NUM_SIZE_CLASSES
         simulatedNbl(:,iSc) = simulatedN(:,iSc)./observedVol; % # part L-1
     end
 end
-
 
 % figure()
 % plot(binMiddle(iFirst:iLast),simulatedPsd(1:10,:)')
@@ -541,7 +536,7 @@ end % calculateNumberOfCasts
 
 % *************************************************************************
 
-function [uvpFluxByCastAvg,uvpFluxByCastErr] = arrangePocFluxDataByLocMonthDepthCast(...
+function [uvpFluxByCastAvg,uvpFluxByCastErr,UVP_TABLE] = arrangePocFluxDataByLocMonthDepthCast(...
     SUFFIX_ECOTAXA_FOLDER_NAME,NUM_LOCS,maxNumCastsPerMonth,targetDepths,...
     nTargetDepths,suffixFluxFilename)
 
@@ -550,6 +545,8 @@ uvpFluxByCastErr = NaN(maxNumCastsPerMonth,nTargetDepths,12,NUM_LOCS);
 % uvpFluxByCastC1 = NaN(maxNumCastsPerMonth,nTargetDepths,12,NUM_LOCS);
 % uvpFluxByCastAlpha = NaN(maxNumCastsPerMonth,nTargetDepths,12,NUM_LOCS);
 % uvpFluxByCastGamma = NaN(maxNumCastsPerMonth,nTargetDepths,12,NUM_LOCS);
+
+UVP_TABLE = table();
 
 for iLoc = 1:NUM_LOCS
  
@@ -562,6 +559,15 @@ for iLoc = 1:NUM_LOCS
     ET.dateString = datestr(ET.date, 'yyyy-mm-dd HH:MM:SS');
     ET.month = month(ET.date);
     ET.year = year(ET.date);
+    
+    % Extract the 3 columns of interest and append them to UVP_TABLE
+    extractedColumns = ET(:, {'yyyy_mm_ddHh_mm','Depth_m_','modelledPocFlux','fluxErr'});
+    nRows = height(extractedColumns);
+    locationColumn = repmat(SUFFIX_ECOTAXA_FOLDER_NAME(iLoc), nRows, 1); % repeats the location name
+    extractedColumns.Location = locationColumn;
+
+    % Append the columns to the UVP_POC table
+    UVP_TABLE = [UVP_TABLE; extractedColumns];
 
     % Classify particle data by month, depth and cast
     for iMonth = 1:12
