@@ -9,8 +9,8 @@
 %   Section 2 - Plot Figure 2 (POC flux data by station and month).       %
 %   Section 3 - Plot Figure S1 (no. entries by month, location and depth  %
 %               horizon).                                                 %
-%   Section 4 - Plot Figure S1B (percentage uncertainty by month,         %
-%               location and depth horizon; not used).                    %
+%   Section 4 - Plot percentage uncertainty by month, location and depth  %        
+%               horizon.                                                  %
 %   Section 5 - Plot Figure S2 (monthly fluxes and their error by         %
 %               location and depth horizon).                              %
 %                                                                         %
@@ -54,7 +54,7 @@ monthLabel = {'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov',
 % =========================================================================
 %%
 % -------------------------------------------------------------------------
-% SECTION 2 - PLOT FIGURE 3 (POC FLUX DATA BY STATION AND MONTH)
+% SECTION 2 - PLOT FIGURE 2 (POC FLUX DATA BY STATION AND MONTH)
 % -------------------------------------------------------------------------
 
 % localMaxPocFlux = zeros(NUM_LOCS,12);
@@ -65,6 +65,7 @@ monthLabel = {'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov',
 %             localMaxPocFlux(iLoc,iMonth) = MOLAR_MASS_CARBON.*max(allmyvals); % mmol C m-2 d-1 --> mg C m-2 d-1
 %         end
 %     end
+%     disp(max(localMaxPocFlux(iLoc,:)))
 % end
 
 mycolours = parula(3);
@@ -220,37 +221,27 @@ for iLoc = 1:NUM_LOCS
 
         box on
         
-        if (iLoc == 1)
-            monthlyMaxFlux = 500;
-            xlim([0 monthlyMaxFlux])
-            xticks([0 200 400])
-            xticklabels({'0','200','400'})
-        elseif (iLoc == 2) 
-            monthlyMaxFlux = 200;
-            xlim([0 monthlyMaxFlux])
-            xticks([0 75 150])
-            xticklabels({'0','75','150'})        
-        elseif (iLoc == 3)
-            monthlyMaxFlux = 250;
-            xlim([0 monthlyMaxFlux])
-            xticks([0 100 200])
-            xticklabels({'0','100','200'})
-        elseif (iLoc == 4)
-            monthlyMaxFlux = 350;
-            xlim([0 monthlyMaxFlux])
-            xticks([0 150 300])
-            xticklabels({'0','150','300'})
-        elseif (iLoc == 5)
-            monthlyMaxFlux = 100;
-            xlim([0 monthlyMaxFlux])
-            xticks([0 50 100])
-            xticklabels({'0','50','100'})
-        elseif (iLoc == 6)
-            monthlyMaxFlux = 70;
-            xlim([0 monthlyMaxFlux])
-            xticks([0 25 50])
-            xticklabels({'0','25','50'})
+        if (iLoc == 1) % EqPac
+            xlim([0 500])
+            xTickValues = 0:200:400;
+        elseif (iLoc == 2) % OSP
+            xlim([0 200])
+            xTickValues = 0:75:150;       
+        elseif (iLoc == 3) % PAP-SO
+            xlim([0 380])
+            xTickValues = 0:150:300;
+        elseif (iLoc == 4) % BATS/OFP
+            xlim([0 350])
+            xTickValues = 0:150:300;
+        elseif (iLoc == 5) % HOT/ALOHA
+            xlim([0 100])
+            xTickValues = 0:50:100;
+        elseif (iLoc == 6) % HAUSGARTEN
+            xlim([0 70])
+            xTickValues = 0:25:50;
         end
+        xticks(xTickValues)
+        xticklabels(xTickValues)
 
         ylim([15 4000])
         yticks([20 100 1000 4000])
@@ -321,7 +312,7 @@ end % iLoc
 % =========================================================================
 %%
 % -------------------------------------------------------------------------
-% SECTION 3 - PLOT FIGURE S1A (NO. ENTRIES BY MONTH, LOCATION AND DEPTH
+% SECTION 3 - PLOT FIGURE S1 (NO. ENTRIES BY MONTH, LOCATION AND DEPTH
 % HORIZON)
 % -------------------------------------------------------------------------
 
@@ -370,8 +361,8 @@ exportgraphics(gcf,fullfile('.','figures','compilation_numberdatapoints.png'),'R
 % =========================================================================
 %%
 % -------------------------------------------------------------------------
-% SECTION 4 - PLOT FIGURE S1B (PERCENTAGE UNCERTAINTY BY MONTH, LOCATION
-% AND DEPTH HORIZON)
+% SECTION 4 - PLOT PERCENTAGE UNCERTAINTY BY MONTH, LOCATION AND DEPTH
+% HORIZON
 % -------------------------------------------------------------------------
 
 fe = (obsMonthlyDhErrTot./obsMonthlyDhAvg).*100;
@@ -457,13 +448,7 @@ for iDepthLayer = 1:3
 
         haxis(iSubplot) = subaxis(3,NUM_LOCS,iSubplot,'Spacing',0.01,'Padding',0.01,'Margin', 0.07);
         ax(iSubplot).pos = get(haxis(iSubplot),'Position');
-%         if (iSubplot == 2 || iSubplot == 8 || iSubplot == 14)
-%             ax(iSubplot).pos(1) = ax(iSubplot).pos(1) - 0.030;
-%         elseif (iSubplot == 3 || iSubplot == 9 || iSubplot == 15)  
-%             ax(iSubplot).pos(1) = ax(iSubplot).pos(1) - 0.060;
-%         elseif (iSubplot == 4 || iSubplot == 10 || iSubplot == 16)  
-%             ax(iSubplot).pos(1) = ax(iSubplot).pos(1) - 0.090;
-%         end
+
         if (iSubplot >= 1 && iSubplot <= 6)
             ax(iSubplot).pos(2) = ax(iSubplot).pos(2) + 0.04;
         elseif (iSubplot >= 6 && iSubplot <= 12)
@@ -486,22 +471,19 @@ for iDepthLayer = 1:3
         
         % Euphotic
         if (iSubplot >= 1 && iSubplot <= 6)
-            yMax = 22;
-            ylim([0 yMax])
+            ylim([0 22])
             yticks([0,5,10,15,20])
             yticklabels({'0','5','10','15','20'});
             ytickformat('%.0f')
         % Mesopelagic
         elseif (iSubplot > 6 && iSubplot <= 12)
-            yMax = 2.2;
-            ylim([0 yMax])
+            ylim([0 2.2])
             yticks([0,0.5,1,1.5,2])
             yticklabels({'0','0.5','1','1.5','2'});
             ytickformat('%.1f')
         % Bathypelagic
         else
-            yMax = 2.2;
-            ylim([0 yMax])
+            ylim([0 2.2])
             yticks([0,0.5,1,1.5,2])
             yticklabels({'0','0.5','1','1.5','2'});
             ytickformat('%.1f')
@@ -541,3 +523,4 @@ for iDepthLayer = 1:3
 end
 
 exportgraphics(gcf,fullfile('.','figures','compilation_flux_by_month_and_station.png'),'Resolution',600)
+
