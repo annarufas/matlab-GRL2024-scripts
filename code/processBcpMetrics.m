@@ -2,7 +2,7 @@
 % ======================================================================= %
 %                                                                         %
 % This script calculates the BCP mesopelagic transfer efficiency metrics  % 
-% shown in Figure 5 in the paper (Martin's b, coefficient, z* coefficient % 
+% shown in Figure 4 in the paper (Martin's b, coefficient, z* coefficient % 
 % and Teff between 100-1000 m). The metrics originate from five sources:  % 
 %   (i) observations of POC flux from sediment traps and radionuclides    %
 %       (compilation made for this study),                                %
@@ -45,7 +45,7 @@
 %   WRITTEN BY A. RUFAS, UNIVERISTY OF OXFORD                             %
 %   Anna.RufasBlanco@earth.ox.ac.uk                                       %
 %                                                                         %
-%   Version 1.0 - Completed 5 Jun 2024                                    %
+%   Version 1.0 - Completed 5 Oct 2024                                    %
 %                                                                         %
 % ======================================================================= %
 
@@ -65,7 +65,7 @@ addpath(genpath('./resources/internal/'));
 % Path and filename declarations
 filenameTimeseriesInformation = 'timeseries_station_information.mat';
 filenameMetricsData = 'bcpmetrics_all';
-filenameCsvTable = 'dataset_s2_figure5.csv';
+filenameCsvTable = 'dataset_s1_figure4.csv';
 
 % Load station information
 load(fullfile('.','data','processed',filenameTimeseriesInformation))
@@ -853,8 +853,9 @@ writetable(outputTable,fullfile('.','data','processed',filenameCsvTable),...
 
 % .........................................................................
 
-% ANOVA test to see the effect of geographical location on the different 
-% BCP metrics
+%% ANOVA test to see the effect of geographical location on the different metrics
+
+fprintf('ANOVA test to see the effect of geographical location on the different BCP metrics\n')
 
 % Put all samples from each reference together
 localMetricSamples = NaN(3,NUM_LOCS,nPublications*4); % 4 for the number of repetitions
@@ -919,7 +920,9 @@ end
 
 % .........................................................................
 
-% ANOVA test to see the effect of publication on the different BCP metrics
+%% ANOVA test to see the effect of publication on the different BCP metrics
+
+fprintf('ANOVA test to see the effect of publication on the different BCP metrics\n')
 
 % Put all samples from each reference together
 refMetricSamples = NaN(3,nPublications,NUM_LOCS*4); % 4 for the number of repetitions
@@ -977,7 +980,8 @@ for iMetric = [iMartinb,iZstar,iTeff100to1000] % response variable
     
     % If the test rejects the null hypothesis that all group means are 
     % equal, we can use the multiple comparisons to determine which group 
-    % means are different from others. For that, we will use multcompare.
+    % means are different from others. For that, we will use multcompare
+    % (Tukey-Kramer post-hoc test).
     if (pValue(i) < 0.05) % rejects H0
         disp('We reject H0 that all group means are equal')
         [c,m,h,nms] = multcompare(stats); % , 'Display', 'off'
