@@ -1,5 +1,7 @@
 function [teffAnnual,peeffAnnual] = propagateErrorWithMCforPEeffAndTeff(...
     nLocs,latsLocal,lonsLocal,fullpathRawDataDir,filenameNppDataset,arrayFlux)
+% [teffAnnual,peeffAnnual] = propagateErrorWithMCforPEeffAndTeff(...
+%     nLocs,latsLocal,lonsLocal,fullpathRawDataDir,filenameNppDataset,arrayFlux)
 
 % PROPAGATEERRORWITHMCFORPEEFFANDTEFF Calculates average PEeff and Teff 100 
 % to 1000 m and propagates error from POC flux data.
@@ -45,10 +47,10 @@ NUM_MONTE_CARLO_SAMPLES = 1e5;
 teffMonthly = NaN(12,nLocs,5); % 3rd dimension: 1=median, 2=upp CI, 3=low CI, 4=max, 5=min
 teffMonthly_mcvals = NaN(12,nLocs,NUM_MONTE_CARLO_SAMPLES);
 teffAnnual = NaN(nLocs,5);
-% nNppAlgos = length(filenameNppDataset);
-% peeffMonthly = NaN(12,nLocs,nNppAlgos,3); % 4th dimension: 1=median, 2=upp CI, 3=low CI
-% peeffMonthly_mcvals = NaN(12,nLocs,nNppAlgos,NUM_MONTE_CARLO_SAMPLES);
-% peeffAnnual = NaN(nLocs,5); % 5th dimension: 1=median, 2=upp CI, 3=low CI, 4=max, 5=min
+nNppAlgos = length(filenameNppDataset);
+peeffMonthly = NaN(12,nLocs,nNppAlgos,3); % 4th dimension: 1=median, 2=upp CI, 3=low CI
+peeffMonthly_mcvals = NaN(12,nLocs,nNppAlgos,NUM_MONTE_CARLO_SAMPLES);
+peeffAnnual = NaN(nLocs,5); % 5th dimension: 1=median, 2=upp CI, 3=low CI, 4=max, 5=min
 
 % Get local NPP (mg C m-2 d-1) for PEeff calculations
 % [nppAvg,nppErr] = extractLocalNPP(nLocs,latsLocal,lonsLocal,...
