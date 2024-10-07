@@ -744,7 +744,7 @@ save(fullfile('.','data','processed',filenameMetricsData),'metricsData',...
 %%
 % -------------------------------------------------------------------------
 % SECTION 8 - WRITE OUT THE METRICS DATA 5D ARRAY INTO A .CSV FILE 
-% (DATASET S2)
+% (DATASET S1)
 % -------------------------------------------------------------------------
 
 % We need to flatten or reshape the array into a 2D matrix 
