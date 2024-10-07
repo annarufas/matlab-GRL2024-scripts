@@ -6,11 +6,6 @@ figures/creating_figures_4thdraft.pptx
 figures/Map-AnnaSZ.ai
 figures/Map-AnnaSZ.pdf
 figures/Map-AnnaSZ.png
-figures/compilation*
-figures/matchups*
-figures/monthly*
-figures/uncertainty*
-figures/uvp*
 code/calculateBcpMetricsFromUvpAnnual.m
 code/calculateBcpMetricsFromTrapAndRadionuclideAnnual.m
 code/processBcpMetricsAnnual.m
@@ -25,4 +20,5 @@ data/raw/par0_seawifs_global.mat
 data/raw/chla_seawifs_global.mat
 data/raw/dataset_s0_trap_and_radionuclide_compilation.xlsx
 README_cover.png
+README_cover2.png
 .DS_Store
