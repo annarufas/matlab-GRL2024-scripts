@@ -6,6 +6,11 @@ figures/creating_figures_4thdraft.pptx
 figures/Map-AnnaSZ.ai
 figures/Map-AnnaSZ.pdf
 figures/Map-AnnaSZ.png
+figures/compilation*
+figures/matchups*
+figures/monthly*
+figures/uncertainty*
+figures/uvp*
 code/calculateBcpMetricsFromUvpAnnual.m
 code/calculateBcpMetricsFromTrapAndRadionuclideAnnual.m
 code/processBcpMetricsAnnual.m
