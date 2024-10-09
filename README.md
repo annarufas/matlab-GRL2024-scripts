@@ -9,11 +9,12 @@ This repository contains the MATLAB scripts and datasets used for the data analy
 
 **"Can We Constrain Geographical Variability in the Biological Carbon Pump's Transfer Efficiency from Observations?"**
 
-A. Rufas<sup>1</sup>, S. Khatiwala<sup>1</sup>, K. M. Bisson<sup>2</sup>, A. P. Martin<sup>3</sup>, H. A. Bouman<sup>1</sup>
+A. Rufas<sup>1</sup>, S. Khatiwala<sup>1</sup>, K. M. Bisson<sup>2,</sup><sup>3</sup>, A. P. Martin<sup>4</sup>, H. A. Bouman<sup>1</sup>
 
-<sup>1</sup>Department of Earth Sciences, University of Oxford, Oxford, UK  
-<sup>2</sup>NASA Headquarters Science Mission Directorate, Santa Barbara, CA, US  
-<sup>3</sup>National Oceanography Centre, Southampton, UK
+<sup>1</sup>Department of Earth Sciences, University of Oxford, Oxford, UK
+<sup>2</sup>Ocean Biology and Biogeochemistry Program, NASA Headquarters, Earth Science Division, Washington, D.C., USA
+<sup>3</sup>Department of Botany and Plant Pathology, Oregon State University, Corvallis, OR, USA
+<sup>4</sup>National Oceanography Centre, Southampton, UK
 
 Find the pre-print in the [Earth and Space Science Open Archive](https://essopenarchive.org/users/806280/articles/1197117-can-we-constrain-geographical-variability-in-the-biological-carbon-pump-s-transfer-efficiency-from-observations).
 
@@ -29,7 +30,7 @@ To use the content of this repository, ensure you have the following.
 
 This project uses various raw oceanographic datasets downloaded from online repositories, stored in the `./data/raw/` folder.
 
-- Particle concentration measurements from the Underwater Vision Profiler 5 (UVP5) downloaded from the Ecotaxa repository hosted by [IFREMER](https://ecopart.obs-vlfr.fr). This dataset is stored in the subfolder `./data/raw/UVP5`.
+- Particle concentration measurements from the Underwater Vision Profiler 5 (UVP5) downloaded from the EcoPart repository hosted by [IFREMER](https://ecopart.obs-vlfr.fr). This dataset is stored in the subfolder `./data/raw/UVP5`.
 - Particulate organic carbon (POC) flux measurements from sediment traps and radionuclides, a compilation that we made for this study. The file, `dataset_s0_trap_and_radionuclide_compilation.xlsx`, is not available within this repository as it contains data owned by other authors that are not in a preservation repository. References for constructing this dataset are provided in the Supporting Information of our paper, Tables S1-S6.
 
 Due to their large size, the following datasets are not included in `./data/raw/` but instructions for acquiring them are provided. Place the corresponding `.mat` files in `./data/raw/`. 
